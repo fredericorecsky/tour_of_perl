@@ -1,0 +1,17 @@
+title: Arrays
+body:  |
+    <h3>Array</h3>
+    <br>
+    Dude, an array. It is a collection of scalars
+    <br>
+    Also in this lesson, we have a for, write a nice text 
+    about loops and etc
+    <br>
+result: |
+    0
+    1
+    2
+    3
+    4
+    5
+    

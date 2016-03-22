@@ -1,0 +1,23 @@
+title:  Ola Perl!
+body: |
+    Este e um tutorial online da Linguagem Perl!
+    <br>
+    todo - escrever um texto introdutorio
+    <br>
+    Como a a maioria das linguagens de programacao, o primeiro
+    programa e uma mensagem ao mundo. E serve para introduzir
+    o sistema de entrada e saida basico. 
+    <br>
+    No caso o comando para imprimir na tela ( saida padrao ) 
+    e o\: print
+    <br>
+    Ele recebe como parametro uma string, devidamente delimitada 
+    entre aspas.
+    Neste exemplo voce deve escrever o classico Ola Mundo, 
+    utilizando o comando print. 
+    <br>
+    Digite o comando e aperte executar, a saida aparecera embaixo.
+    <br>
+    Caso ela esteja correta ( imprimindo Ola Mundo! ) voce pode ir para 
+    a proxima licao
+result: Ola Mundo!

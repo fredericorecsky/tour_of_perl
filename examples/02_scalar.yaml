@@ -1,0 +1,14 @@
+title: Variaveis
+body: |
+    As variaveis em Perl nao sao tipadas.
+    <br>
+    Uma variavel pode representar um elemento, um escalar ou um conjunto deles, no caso temos arrays e hashes.
+    <br>
+    No proximo exemplo vamos atribuir um valor para uma variavel chamada $a;
+    <br>
+    A declaracao de variavel contem o nome da variavel e a atribuicao de valor e feita com um sinal de =
+    <br>
+    $a = "Perl";
+    <br>
+    Este exercicio consiste em atribuir o valor "Perl" para uma variavel e imprimi-la na tela
+result: Perl

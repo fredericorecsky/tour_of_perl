@@ -1,0 +1,19 @@
+#main {
+    float: left;
+    width: 40%;
+}
+
+#lessonlist {
+    margin: 5em 5em 5em 5em;
+    float: left;
+    width: 40%;
+}
+
+#goahead {
+    visibility: hidden;
+}
+.half {
+    width: 45%
+    float: left;
+    margin: auto;
+}

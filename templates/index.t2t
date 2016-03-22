@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aprenda Perl Online!</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/tour_of_perl/static/css.css" type="text/css">
+        <script src="/tour_of_perl/static/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="/tour_of_perl/static/lib/codemirror.css">
+        <script src="/tour_of_perl/static/mode/javascript/javascript.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript" src="http://fglock.github.io/Perlito/perlito/perlito5.js"></script>
+
+        <div class="half">
+            <h2> [% title %] </h2>
+
+            <p>
+                [% body %]
+            </p>
+        </div>
+        <div id="goahead">
+            <h3> Sucesso! </h3>
+                <a href="[% next %].html">Ir para a proxima Licao</a>
+            <br>
+        </div>
+        <div class="half">
+            <div id="code">
+                Codigo Fonte:
+                <input type="button" value="Executar!" onclick="execute()"/>
+                <br>
+                <textarea id="codeeditor" name="code"></textarea>
+            </div>
+            <div id="test">
+                Saida:
+                <br>
+                <textarea id="coderesult" readonly="true" cols="60" rows="15"></textarea>
+                <br>
+                Erros e Alertas:
+                <br>
+                <textarea id="codeerr" cols="60" rows="5"></textarea>
+                <div style="display:none">
+                    <textarea id="js-result" cols="60" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
+
+    <script>
+    var expectedresult = `[% result %]`;
+    var contentcode    = CodeMirror.fromTextArea(
+                            document.getElementById("codeeditor"),
+                            { 
+                                mode: { 
+                                        name: "code",
+                                        globalVars: true 
+                                },
+                                lineNumbers: true 
+                            }
+                         );
+
+    function execute() {
+    
+        window.p5is_file = function(s) {
+            return '';
+        };
+        p5typeglob_set("Perlito5::IO", "print", function(filehandle, List__) {
+            if (filehandle == 'STDOUT' || filehandle == 'main::STDOUT') {
+                var i;
+                for (i = 0; i < List__.length; i++) {
+                    document.getElementById('coderesult').value += p5str(List__[i]);
+                }
+                return true;
+            }
+            else {
+                // STDERR
+                var i;
+                List__.push("\n");
+                for (i = 0; i < List__.length; i++) {
+                    document.getElementById('codeerr').value += p5str(List__[i]);
+                }
+                return true;
+            }
+        } );
+        p5pkg["main"]["v_^O"] = "browser";
+        p5pkg["main"]["Hash_INC"]["Perlito5X/strict.pm"] = "Perlito5X/strict.pm";
+        p5pkg["main"]["Hash_INC"]["Perlito5X/warnings.pm"] = "Perlito5X/warnings.pm";
+        p5pkg["main"]["Hash_INC"]["Perlito5X/feature.pm"] = "Perlito5X/feature.pm";
+    
+        //var source = document.getElementById('codeeditor').value;
+        var source = contentcode.getValue();
+        var pos = 0;
+        var ast;
+        var match;
+        document.getElementById('codeerr').value   = "";
+        document.getElementById('js-result').value    = "";
+        document.getElementById('coderesult').value = "";
+        try {
+            // compile
+            document.getElementById('codeerr').value += "Compiling.\n";
+            var start = new Date().getTime();
+            var js_source = p5pkg["Perlito5"].compile_p5_to_js([source]);
+            var end = new Date().getTime();
+            var time = end - start;
+            document.getElementById('codeerr').value +=  "Compilation time: " + time + "ms\n";
+            document.getElementById('js-result').value  += js_source + ";\n";
+    
+            // run
+            start = new Date().getTime();
+            eval(js_source);
+            end = new Date().getTime();
+            time = end - start;
+            document.getElementById('codeerr').value += "Running time: " + time + "ms\n";
+            //p5pkg.CORE.print(["\nDone.\n"]);
+            if ( expectedresult ==  document.getElementById('coderesult').value ){
+                 document.getElementById('goahead').style.visibility = 'visible';
+                alert( "Voce conseguiu! Vamos tentar a proxima licao!");
+            }else{
+                alert( "A Saida nao foi como o esperado!");
+            }
+        }
+        catch(err) {
+            document.getElementById('codeerr').value += "Error:\n";
+            document.getElementById('codeerr').value += err + "\n";
+            document.getElementById('codeerr').value += "Compilation aborted.\n";
+        }
+    
+    }
+    </script>
+
+    </body>
+</html>
