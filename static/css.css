@@ -1,3 +1,8 @@
+.fullscreen {
+    height: 100%;
+    display: block;
+}
+
 #main {
     float: left;
     width: 40%;
@@ -9,11 +14,29 @@
     width: 40%;
 }
 
-#goahead {
+.message_hidden {
+    display: none;
     visibility: hidden;
 }
+
 .half {
-    width: 45%
+    overflow: hidden;
+    width: 45%;
     float: left;
     margin: auto;
+    padding: 1em 1em 1em 1em;
 }
+
+.textbook{
+    height: 96vh;
+    background-color: #EEE;
+}
+
+.success_code{
+    background-color: #CFC;
+}
+
+.fail_code{
+    background-color: #FCC;
+}
+

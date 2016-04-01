@@ -3,57 +3,68 @@
     <head>
         <title>Aprenda Perl Online!</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="/tour_of_perl/static/css.css" type="text/css">
-        <script src="/tour_of_perl/static/lib/codemirror.js"></script>
-        <link rel="stylesheet" href="/tour_of_perl/static/lib/codemirror.css">
-        <script src="/tour_of_perl/static/mode/javascript/javascript.js"></script>
+
+        <link rel="stylesheet" href="static/css.css" type="text/css">
+        <script src="static/lib/codemirror.js"></script>
+
+        <link rel="stylesheet" href="static/lib/codemirror.css">
+        <script src="static/mode/javascript/javascript.js"></script>
+
+        <script src="static/mode/perl/perl.js"></script>
+
     </head>
     <body>
-        <script type="text/javascript" src="http://fglock.github.io/Perlito/perlito/perlito5.js"></script>
+        <script type="text/javascript" src="perlito/perlito5.js"></script>
+        <div class="fullscreen">
+            <div class="half textbook">
+                <h2> [% title %] </h2>
 
-        <div class="half">
-            <h2> [% title %] </h2>
-
-            <p>
-                [% body %]
-            </p>
-        </div>
-        <div id="goahead">
-            <h3> Sucesso! </h3>
-                <a href="[% next %].html">Ir para a proxima Licao</a>
-            <br>
-        </div>
-        <div class="half">
-            <div id="code">
-                Codigo Fonte:
-                <input type="button" value="Executar!" onclick="execute()"/>
-                <br>
-                <textarea id="codeeditor" name="code"></textarea>
+                <p>
+                    [% body %]
+                </p>
             </div>
-            <div id="test">
-                Saida:
-                <br>
-                <textarea id="coderesult" readonly="true" cols="60" rows="15"></textarea>
-                <br>
-                Erros e Alertas:
-                <br>
-                <textarea id="codeerr" cols="60" rows="5"></textarea>
-                <div style="display:none">
-                    <textarea id="js-result" cols="60" rows="20"></textarea>
+            <div id="editor" class="half">
+                <div id="goahead" class="message_hidden">
+                    <h3> Sucesso! </h3>
+                        <a href="[% next %].html">Ir para a proxima Licao</a>
+                    <br>
+                </div>
+                <div id="status" class="message_hidden">
+                    Saida nao foi como esperada!
+                </div>
+                <div id="code">
+                    Codigo Fonte:
+                    <input type="button" value="Executar!" onclick="execute()"/>
+                    <br>
+                    <textarea id="codeeditor" name="code"></textarea>
+                </div>
+                <div id="test">
+                    Saida:
+                    <br>
+                    <textarea id="coderesult" readonly="true" cols="60" rows="15"></textarea>
+                    <br>
+                    Erros e Alertas:
+                    <br>
+                    <textarea id="codeerr" cols="60" rows="5"></textarea>
+                    <div style="display:none">
+                        <textarea id="js-result" cols="60" rows="20"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
-
     <script>
     var expectedresult = `[% result %]`;
     var contentcode    = CodeMirror.fromTextArea(
                             document.getElementById("codeeditor"),
                             { 
                                 mode: { 
-                                        name: "code",
+                                        name: "text/x-perl",
                                         globalVars: true 
                                 },
-                                lineNumbers: true 
+                                lineNumbers: true,
+                                matchBrackets: true,
+                                indentUnit: 4,
+                                indentWithTabs: true
                             }
                          );
 
@@ -112,9 +123,17 @@
             //p5pkg.CORE.print(["\nDone.\n"]);
             if ( expectedresult ==  document.getElementById('coderesult').value ){
                  document.getElementById('goahead').style.visibility = 'visible';
+                 document.getElementById('goahead').style.display = 'block';
+                 document.getElementById('editor').className = 'half success_code';
+                 document.getElementById('status').style.visibility = 'hidden';
+                 document.getElementById('status').style.display = 'none';
                 alert( "Voce conseguiu! Vamos tentar a proxima licao!");
             }else{
-                alert( "A Saida nao foi como o esperado!");
+                 document.getElementById('editor').className = 'half fail_code';
+                 document.getElementById('status').value = ' Esta nao e a saida esperada!';
+                 document.getElementById('status').style.visibility = 'visible';
+                 document.getElementById('status').style.display = 'block';
+                 //alert( "A Saida nao foi como o esperado!");
             }
         }
         catch(err) {
